@@ -300,3 +300,10 @@ if SENTRY_USE_REMOTE_USER:
         MIDDLEWARE_CLASSES += ('sentry_config.LAZY_CUSTOM_REMOTE_USER_MIDDLEWARE',)
     else:
         MIDDLEWARE_CLASSES += ('django.contrib.auth.middleware.RemoteUserMiddleware',)
+
+##############################
+# Plugins #
+##############################
+# Google SSO
+GOOGLE_CLIENT_ID = config('SENTRY_GOOGLE_CLIENT_ID', default=None)
+GOOGLE_CLIENT_SECRET = config('SENTRY_GOOGLE_CLIENT_SECRET', default=None)
