@@ -1,0 +1,18 @@
+---
+
+# Check if postgres is up
+- name: Check if {{ utils_name }} is up
+  command: "{{ paths.docker }} exec {{ utils_name }} {{ paths.pg_isready }}"
+  until: "'- accepting connections' in result.stdout"
+  register: result
+  retries: "{{ utils_retries }}"
+  delay: "{{ utils_delay }}"
+
+- debug: var=result.stdout
+
+- name: Return status
+  set_fact:
+    utils_result: True
+  when: "'- accepting connections' in result.stdout"
+
+- debug: var=utils_result

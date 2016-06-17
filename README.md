@@ -3,6 +3,35 @@ Sentry in Docker
 
 Totally forked from [slafs/sentry-docker](https://github.com/slafs/sentry-docker)
 
+The whole build process has changed here, and is now Ansibl-ized
+
+## Notes
+1. Remove the `.example` extension, and modify `init_sentry_data.sh.example` to add your projects and keys at system startup (the first time yous startup!)
+1. Remove the `.example` extension, and modify `nginx_ssl_certificate_info.yml.example` with your certificate information.  This is for the nginx front-end
+1. Remove the `.example` extension, and update `secrets.txt.example`.  The Google OAuth stuff is if you want to enable Google logins (you should)
+1. Populate `sys/nginx/keys` with your keys
+1. Download the dependancy roles
+
+```
+$ cd ansible
+$ ansible-galaxy install -r requirements.yml
+```
+
+
+## Usage
+1. Startup
+
+```
+$ cd ansible
+$ mie_up.yml
+```
+1. Shutdown
+
+```
+$ cd ansible
+$ mie_down.yml
+```
+
 ## Warning about build tags
 
 Latest changes introduced some new build tags:

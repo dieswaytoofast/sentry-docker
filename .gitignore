@@ -1,1 +1,22 @@
+
+# OSX Stuff
+.DS_Store
+
 environment
+
+
+# Ansible galaxy roles
+ansible_docker/
+ansible_docker_utils/
+
+# Nginx
+sys/nginx/keys
+nginx_ssl_certificate_info.yml
+# Scratch file
+tmp/nginx.conf
+
+# Sentry initialization
+init_sentry_data.sh
+
+# Secrets
+secrets.txt

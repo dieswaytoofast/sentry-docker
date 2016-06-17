@@ -1,0 +1,16 @@
+---
+
+- include: install_weave.yml
+  tags:
+    - weave
+    - install_weave
+
+- include: run_weave.yml
+  tags:
+    - weave
+    - run_weave
+
+
+
+
+

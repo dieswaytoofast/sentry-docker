@@ -1,0 +1,10 @@
+#!/usr/bin/env /usr/bin/ansible-galaxy
+---
+
+# Github roles
+- name: ansible_docker
+  src: https://github.com/dieswaytoofast/ansible_docker
+
+- name: ansible_docker_utils
+  src: https://github.com/dieswaytoofast/ansible_docker_utils
+

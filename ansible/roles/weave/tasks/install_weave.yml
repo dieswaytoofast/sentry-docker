@@ -1,0 +1,8 @@
+---
+
+# Weave
+- name: Download and Install weave
+  get_url:
+    url: https://git.io/weave
+    dest: /usr/local/bin/weave
+    mode: 755

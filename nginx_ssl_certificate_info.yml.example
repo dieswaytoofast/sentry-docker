@@ -1,0 +1,5 @@
+# Remove the ".example" extension for this to be read
+# Don't forget to leave the extension in! (i.e. "foo.crt" not "foo"
+
+nginx_ssl_certificate: your_crt_filename_here.crt    #####  Change this to whatever you need it to be
+nginx_ssl_certificate_key your_crt_key_here.key      #####  Change this to whatever you need it to be

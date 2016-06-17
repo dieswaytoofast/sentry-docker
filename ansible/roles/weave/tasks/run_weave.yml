@@ -1,0 +1,14 @@
+---
+
+# Weave
+- name: Run Weave
+  command: /usr/local/bin/weave launch
+  register: result
+
+- debug: var=result.stdout_lines
+
+- name: Expose Weave ports
+  command: /usr/local/bin/weave expose
+  register: result
+
+- debug: var=result.stdout_lines
