@@ -1,0 +1,16 @@
+---
+
+- name: Install python2 stuff
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - docker-py
+
+- name: Install python3 stuff
+  pip:
+    name: "{{ item }}"
+    executable: /usr/bin/pip3
+  with_items:
+    - pathlib
+    - sarge
+    - pyyaml

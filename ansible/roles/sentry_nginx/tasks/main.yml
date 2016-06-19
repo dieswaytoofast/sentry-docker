@@ -1,0 +1,19 @@
+---
+
+
+- include: build_containers.yml
+  tags:
+    - sentry_nginx
+    - build
+    - build_sentry_nginx
+
+- include: run_containers.yml
+  tags:
+    - sentry_nginx
+    - run
+    - run_sentry_nginx
+
+
+
+
+

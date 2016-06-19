@@ -1,0 +1,19 @@
+---
+
+
+- include: build_containers.yml
+  tags:
+    - workers
+    - build
+    - build_workers
+
+- include: run_containers.yml
+  tags:
+    - workers
+    - run
+    - run_workers
+
+
+
+
+

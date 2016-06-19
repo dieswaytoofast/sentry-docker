@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+SENTRY_CONF_FILE=${SENTRY_CONF_FILE:-/conf/sentry_docker_conf.py}
+# export env var for other scripts to work
+export SENTRY_CONF=$SENTRY_CONF_FILE
+
+
+#### CREATE YOUR PROJECTS BELOW.  DONT FORGET TO ADD YOUR KEYS! ####
+
+
+# Create python project
+python /conf/create_team_or_project.py project DevTeam Local/Python django
+python /conf/create_team_or_project.py key DevTeam Local/Python  PublicKeyHere:SecretKeyHere
+
+
+#create JS project
+python /conf/create_team_or_project.py project DevTeam Local/Javascript  javascript
+python /conf/create_team_or_project.py key DevTeam Local/Javascript OtherPublicKeyHere:OtherSecretKeyHere
+python /conf/create_team_or_project.py DevTeam Local/Javascript DevTeam *.your.domain.com
+
+

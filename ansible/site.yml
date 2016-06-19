@@ -1,0 +1,4 @@
+#!/usr/bin/env /usr/bin/ansible-playbook
+---
+
+- include: sentry_up.yml

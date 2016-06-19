@@ -1,0 +1,16 @@
+---
+
+# These are the volumes used by Sentry to store its persistent data
+# TODO These will end up being ECS thingies
+# DB Volume
+- name: Create persistent data container for Sentry
+  docker_container:
+    name: "{{ volumes.sentry_app.name }}"
+    state: present
+    image: "{{ common.volumes.base_repo }}"
+    volumes:
+      - "{{ volumes.sentry_app.data_dir }}"
+  register: result
+
+#- debug: var=result.stdout_lines
+

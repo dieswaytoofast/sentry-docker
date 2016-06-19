@@ -1,0 +1,24 @@
+---
+
+# Read the nginx_ssl_variables
+
+- debug: var=playbook_dir
+
+- include_vars: "{{ playbook_dir }}/../nginx_ssl_certificate_info.yml"
+
+# Copy the template
+- name: Create the nginx.conf file from the template
+  template:
+    src: nginx.conf.j2
+    dest: "{{ playbook_dir }}/../sys/nginx/nginx.conf"
+
+
+# Sentry Worker
+- include: roles/ansible_docker_utils/tasks/build_container.yml
+  vars:
+    docker_name: "{{ containers.sentry_nginx.name }}"
+    docker_dockerfile: "{{ common.dockerfiles_path }}/{{ containers.sentry_nginx.dockerfile }}"
+    docker_build_args: "{{ common.build_args }}"
+    docker_base_dir: "{{ playbook_dir }}/.."
+
+#- debug: var=docker_result.stdout_lines

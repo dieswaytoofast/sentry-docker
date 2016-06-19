@@ -23,13 +23,13 @@ $ ansible-galaxy install -r requirements.yml
 
 ```
 $ cd ansible
-$ mie_up.yml
+$ sentry_up.yml
 ```
 1. Shutdown
 
 ```
 $ cd ansible
-$ mie_down.yml
+$ sentry_down.yml
 ```
 
 ## Warning about build tags

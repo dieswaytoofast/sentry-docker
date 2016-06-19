@@ -1,0 +1,19 @@
+---
+
+- name: Upgrade APT
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install packages
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  with_items:
+    - build-essential
+    - make
+    - python
+    - python3
+    - python-pip
+    - python3-pip
+    - wget

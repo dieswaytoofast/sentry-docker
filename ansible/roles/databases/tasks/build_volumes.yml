@@ -1,0 +1,16 @@
+---
+
+
+# These are the volumes used by Databases to store their data
+# TODO These will end up being ECS thingies
+# DB Volume
+- name: Create DB data volume
+  docker_container:
+    name: "{{ volumes.sentry_db.name }}"
+    state: present
+    image: "{{ common.volumes.base_repo }}"
+    volumes:
+      - "{{ volumes.sentry_db.data_dir }}"
+  register: result
+
+#- debug: var=result.stdout_lines

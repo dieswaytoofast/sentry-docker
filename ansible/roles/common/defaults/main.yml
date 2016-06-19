@@ -1,0 +1,97 @@
+---
+
+containers:
+  sentry_app:
+    name: sentry-app
+    port: 9000
+    dockerfile: sentry_app.dockerfile
+    volumes_from_args: --volumes-from {{ volumes.sentry_app.name }}
+    retry_wait: 5
+    retry_count: 10
+    version: 1.1
+  sentry_base:
+    name: sentry-base
+    dockerfile: sentry_base.dockerfile
+    retry_wait: 2
+    retry_count: 5
+    version: 1.1
+  sentry_db:
+    name: sentry-db
+    port: 5432
+    dockerfile: sentry_db.dockerfile
+    volumes_from_args: --volumes-from {{ volumes.sentry_db.name }}
+    retry_wait: 2
+    retry_count: 5
+    version: 1.1
+  sentry_nginx:
+    name: sentry-nginx
+    port_http: 80
+    port_https: 443
+    dockerfile: sentry_nginx.dockerfile
+    retry_wait: 2
+    retry_count: 10
+    version: 1.1
+  sentry_redis:
+    name: sentry-redis
+    port: 6379
+    dockerfile: sentry_redis.dockerfile
+    auth_required: False
+    retry_wait: 2
+    retry_count: 10
+    version: 1.1
+  sentry_worker:
+    name: sentry-worker
+    dockerfile: sentry_worker.dockerfile
+    retry_wait: 5
+    retry_count: 10
+    version: 1.1
+
+
+common:
+  volumes:
+    base_repo: "busybox:1.24.2"
+  dockerfiles_path: "{{ playbook_dir }}/../sys/dockerfiles"
+  build_args: --build-arg SENTRY_DB_PORT={{ containers.sentry_db.port }}
+              --build-arg SENTRY_REDIS_PORT={{ containers.sentry_redis.port }}
+              --build-arg SENTRY_NGINX_PORT_HTTP={{ containers.sentry_nginx.port_http }}
+              --build-arg SENTRY_NGINX_PORT_HTTPS={{ containers.sentry_nginx.port_https }}
+              --build-arg SENTRY_PORT={{ containers.sentry_app.port }}
+  run_args: --env-file {{ playbook_dir }}/../secrets.txt
+            --env CELERY_ALWAYS_EAGER=False
+            --env SENTRY_BROKER_URL=redis://{{ containers.sentry_redis.name }}:{{ containers.sentry_redis.port }}/1
+            --env SENTRY_PUBLIC=True
+            --env DATABASE_URL=postgres://postgres:pgtestpass@{{ containers.sentry_db.name }}:{{ containers.sentry_db.port }}/postgres
+            --env CACHE_URL=hiredis://{{ containers.sentry_redis.name }}:{{ containers.sentry_redis.port }}/2
+            --env SENTRY_USE_REDIS_BUFFERS=True
+            --env SENTRY_REDIS_BUFFERS={{ containers.sentry_redis.name }}:{{ containers.sentry_redis.port }}
+            --env SENTRY_USE_REDIS_TSDB=True
+            --env SENTRY_REDIS_TSDBS={{ containers.sentry_redis.name }}:{{ containers.sentry_redis.port }}
+            --env SENTRY_DOCKER_DO_DB_CHECK=True
+
+weave:
+  domain_name: weave.local
+
+secrets:
+  name: sentry-db-volume
+  type: accounts
+  data_dir: secrets
+  volumes_from_args: --volumes-from {{ volumes.secrets.name }}
+volumes:
+  sentry_app:
+    name: sentry-app-data
+    data_dir: /data
+  sentry_db:
+    name: sentry-db-data
+    data_dir: /var/lib/postgresql/9.4/data
+  secrets:
+    name: sentry_secret_data
+    data_dir: /secrets
+
+paths:
+  aws: /usr/local/bin/aws
+  docker: /usr/bin/docker
+  pg_isready: /usr/lib/postgresql/9.4/bin/pg_isready
+  ps: /bin/ps
+  rabbitmqctl: /usr/lib/rabbitmq/bin/rabbitmqctl
+  redis_cli: /usr/local/bin/redis-cli
+  weave: /usr/local/bin/weave

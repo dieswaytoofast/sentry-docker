@@ -1,0 +1,28 @@
+---
+
+# Check if the container is running.  If it is, dont' run it
+- include: roles/ansible_docker_utils/tasks/is_container_running.yml
+  vars:
+    docker_name: "{{ containers.sentry_redis.name }}"
+
+# Run the container if it isn't running
+- include: roles/ansible_docker_utils/tasks/run_container.yml
+  vars:
+    docker_name: "{{ containers.sentry_redis.name }}"
+    docker_domain_name: "{{ weave.domain_name }}"
+    docker_volumes_from_args: ""
+    docker_extra_args: "-d
+                        --restart=always"
+  register: result
+  when: "not {{docker_container_is_running }}"
+
+- debug: var=result.stdout_lines
+
+# Check if Redis is up
+- include: roles/utils/tasks/is_redis_up.yml
+  vars:
+    utils_name: "{{ containers.sentry_redis.name }}"
+    utils_auth_required: "{{ containers.sentry_redis.auth_required }}"
+    utils_retries: "{{ containers.sentry_redis.retry_count }}"
+    utils_delay: "{{ containers.sentry_redis.retry_wait }}"
+

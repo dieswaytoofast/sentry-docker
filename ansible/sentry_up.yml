@@ -1,0 +1,18 @@
+#!/usr/bin/env /usr/bin/ansible-playbook
+---
+
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+#    - weave
+#    - baseline
+    - common
+#    - databases
+#    - redis
+#    - sentry_base
+#    - sentry_app
+#    - workers
+    - sentry_nginx
+
+

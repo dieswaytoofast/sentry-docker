@@ -1,0 +1,26 @@
+---
+
+- include: build_volumes.yml
+  tags:
+    - sentry_base
+    - build
+    - build_volumes
+    - build_sentry_volumes
+
+
+- include: build_containers.yml
+  tags:
+    - sentry_base
+    - build
+    - build_sentry_base
+
+- include: run_containers.yml
+  tags:
+    - sentry_base
+    - run
+    - run_sentry_base
+
+
+
+
+

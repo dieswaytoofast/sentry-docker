@@ -1,0 +1,38 @@
+---
+
+# Check if the container is running.  If it is, dont' run it
+- include: roles/ansible_docker_utils/tasks/is_container_running.yml
+  vars:
+    docker_name: "{{ containers.sentry_app.name }}"
+
+# Run the container if it isn't running
+- include: roles/ansible_docker_utils/tasks/run_container.yml
+  vars:
+    docker_name: "{{ containers.sentry_app.name }}"
+    docker_domain_name: "{{ weave.domain_name }}"
+    docker_volumes_from_args: "{{ containers.sentry_app.volumes_from_args }}"
+    docker_extra_args: "-d
+                        --restart=always
+                        {{ common.run_args }}"
+  when: "not {{docker_container_is_running }}"
+  register: result
+
+# Wait for the Sentry app to come up
+# Get the ip address of the container
+- include: roles/ansible_docker_utils/tasks/get_container_ip_addr.yml
+  vars:
+    docker_name: "{{ containers.sentry_app.name }}"
+
+- debug: var=docker_result
+
+# If its up, the login page will 302 to the *real* login page
+- name: wait for Sentry to come up
+  uri:
+    url: http://{{ docker_result }}:{{ containers.sentry_app.port }}
+    status_code: 200
+    follow_redirects: all
+  register: result
+  until: result.status == 200
+  retries: "{{ containers.sentry_app.retry_count }}"
+  delay: "{{ containers.sentry_app.retry_wait }}"
+

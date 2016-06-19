@@ -1,0 +1,12 @@
+#!/usr/bin/env /usr/bin/ansible-playbook
+---
+
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - teardown
+
+
+

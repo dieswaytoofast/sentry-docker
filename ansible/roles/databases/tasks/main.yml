@@ -1,0 +1,26 @@
+---
+
+- include: build_volumes.yml
+  tags:
+    - db
+    - build
+    - build_volumes
+    - build_db_volumes
+
+
+- include: build_containers.yml
+  tags:
+    - db
+    - build
+    - build_db
+
+- include: run_containers.yml
+  tags:
+    - db
+    - run
+    - run_db
+
+
+
+
+

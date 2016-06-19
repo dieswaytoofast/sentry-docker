@@ -1,0 +1,11 @@
+---
+
+- name: Build the db container
+  include: roles/ansible_docker_utils/tasks/build_container.yml
+  vars:
+    docker_name: "{{ containers.sentry_db.name }}"
+    docker_dockerfile: "{{ common.dockerfiles_path }}/{{ containers.sentry_db.dockerfile }}"
+    docker_build_args: "{{ common.build_args }}"
+    docker_base_dir: "{{ playbook_dir }}/.."
+
+

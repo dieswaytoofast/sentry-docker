@@ -1,0 +1,18 @@
+---
+
+- include: build_containers.yml
+  tags:
+    - redis
+    - build
+    - build_redis
+
+- include: run_containers.yml
+  tags:
+    - redis
+    - run
+    - run_redis
+
+
+
+
+

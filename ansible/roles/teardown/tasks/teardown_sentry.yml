@@ -1,0 +1,25 @@
+---
+
+# Stop the workers
+- include: roles/ansible_docker_utils/tasks/stop_and_remove_container.yml
+  vars:
+    docker_name: "{{ item }}"
+  with_items:
+    - "{{ containers.sentry_nginx.name }}"
+    - "{{ containers.sentry_worker.name }}"
+    - "{{ containers.sentry_app.name }}"
+  register: result
+
+- debug: var=result.stdout_lines
+
+# Stop the Base apps
+- include: roles/ansible_docker_utils/tasks/stop_and_remove_container.yml
+  vars:
+    docker_name: "{{ item }}"
+  with_items:
+    - "{{ containers.sentry_redis.name }}"
+    - "{{ containers.sentry_db.name }}"
+
+  register: result
+
+- debug: var=result.stdout_lines
